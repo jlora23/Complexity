@@ -143,16 +143,18 @@ function complexity(filePath)
 
 			builder.ParameterCount = node.params.length;
 			var conditionCounter = 0;
+			var ifAndLoops = 0
 
 			traverseWithParents(node, function (node) {
 				if (isDecision(node) === true){
-					builder.SimpleCyclomaticComplexity += 1;
+					ifAndLoops += 1;
 				}
 
 				if (decisionCounter(node) > conditionCounter){
 					conditionCounter = decisionCounter(node);
 				}
 			});
+			builder.SimpleCyclomaticComplexity = ifAndLoops
 			builder.MaxConditions = conditionCounter;
 			builders[builder.FunctionName] = builder;
 		}
