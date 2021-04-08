@@ -100,20 +100,20 @@ function traverseWithParents(object, visitor)
 }
 
 function decisionCounter(node){
-	var max = 0
+	var decisions = 0
 	ifstatement = false
 		traverseWithParents(node, function (node){
 			if (node.type === 'IfStatement'){
 				ifstatement = true;
 			}
 			if (node.type === 'LogicalExpression' && (node.operator === '||' || node.operator === '&&')){
-				max += 1
+				decisions += 1
 			}
 		})
-		if (max === 0 && ifstatement){
+		if (decisions === 0 && ifstatement){
 			return 1
 		}
-		return max
+		return decisions
 }
 
 function complexity(filePath)
@@ -142,18 +142,18 @@ function complexity(filePath)
 			builders[builder.FunctionName] = builder;
 
 			builder.ParameterCount = node.params.length;
-			var max = 0;
+			var conditionCounter = 0;
 
 			traverseWithParents(node, function (node) {
 				if (isDecision(node) === true){
 					builder.SimpleCyclomaticComplexity += 1;
 				}
 
-				if (decisionCounter(node) > max){
-					max = decisionCounter(node);
+				if (decisionCounter(node) > conditionCounter){
+					conditionCounter = decisionCounter(node);
 				}
 			});
-			builder.MaxConditions = max;
+			builder.MaxConditions = conditionCounter;
 			builders[builder.FunctionName] = builder;
 		}
 		if (node.type === 'Literal'){
