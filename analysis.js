@@ -99,6 +99,23 @@ function traverseWithParents(object, visitor)
     }
 }
 
+function decisionCounter(node){
+	var max = 0
+	ifstatement = false
+		traverseWithParents(node, function (node){
+			if (node.type === 'IfStatement'){
+				ifstatement = true;
+			}
+			if (node.type === 'LogicalExpression' && (node.operator === '||' || node.operator === '&&')){
+				max += 1
+			}
+		})
+		if (max === 0 && ifstatement){
+			return 1
+		}
+		return max
+}
+
 function complexity(filePath)
 {
 	var buf = fs.readFileSync(filePath, "utf8");
@@ -123,8 +140,25 @@ function complexity(filePath)
 			builder.StartLine    = node.loc.start.line;
 
 			builders[builder.FunctionName] = builder;
-		}
 
+			builder.ParameterCount = node.params.length;
+			var max = 0;
+
+			traverseWithParents(node, function (node) {
+				if (isDecision(node) === true){
+					builder.SimpleCyclomaticComplexity += 1;
+				}
+
+				if (decisionCounter(node) > max){
+					max = decisionCounter(node);
+				}
+			});
+			builder.MaxConditions = max;
+			builders[builder.FunctionName] = builder;
+		}
+		if (node.type === 'Literal'){
+			fileBuilder.Strings += 1
+		}
 	});
 
 }
