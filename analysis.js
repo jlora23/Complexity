@@ -154,7 +154,7 @@ function complexity(filePath)
 					conditionCounter = decisionCounter(node);
 				}
 			});
-			builder.SimpleCyclomaticComplexity = ifAndLoops
+			builder.SimpleCyclomaticComplexity = ifAndLoops + 1
 			builder.MaxConditions = conditionCounter;
 			builders[builder.FunctionName] = builder;
 		}
