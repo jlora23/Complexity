@@ -1,5 +1,8 @@
 # Complexity & Travis-CI Lab
 
+[![build status of main](https://travis-ci.org/jlora23/Complexity.svg?branch=dependabot/npm_and_yarn/lodash-4.17.19)](https://travis-ci.org/jlora23/Complexity)
+
+
 In this lab, you'll be implementing simple algorithms for checking basic properties of code complexity, and working with Travis-CI for Continuous Integration.
 
 Two design patterns are of importance here:
