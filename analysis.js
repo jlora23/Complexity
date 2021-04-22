@@ -116,6 +116,7 @@ function decisionCounter(node){
 		}
 		return decisions
 }
+let stringCount;
 
 function complexity(filePath)
 {
@@ -163,7 +164,12 @@ function complexity(filePath)
 			fileBuilder.Strings += 1
 		}
 	});
+	stringCount = fileBuilder.Strings;
+}
 
+function getStrings(){
+
+	return stringCount;
 }
 
 // Helper function for counting children of node.
@@ -313,3 +319,4 @@ mints.toString().split(".")[0] + " " + szmin;
       }
   }
  exports.complexity = complexity;
+ exports.getStrings = getStrings;
